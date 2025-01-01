@@ -2,45 +2,35 @@ import mysql, { Pool, PoolOptions } from "mysql2/promise";
 import appVars from "@/config/env";
 
 export class Database {
-    private static pool: Pool | undefined;
+    private pool: Pool;
 
-    static initialize(config: PoolOptions) {
-        if (this.pool) {
-            console.info("Database is already initialized! Use Database.getPoolInstance() instead to get the pool instance directly.");
-            return this.pool;
-        }
-
+    constructor(config: PoolOptions) {
         this.pool = mysql.createPool(config);
+        this.pool.on("connection", () => {
+            console.log("Pool connected!");
+        });
+    }
+
+    public getPool(){
         return this.pool;
     }
 
-    static getPoolInstance() {
-        if (this.pool) return this.pool;
-        throw new Error("Initialize the database first using Database.initialize(config) method!");
-    }
-}
-
-export async function initializeDatabase() {
-    const config: PoolOptions = {
-        host: appVars.db.host,
-        port: appVars.db.port,
-        user: appVars.db.user,
-        password: appVars.db.password,
-        database: "dynamic_forms",
+    public async testConnection() {
+        // To check if the database connection can be made, make a connection and release immediately
+        // Throws an error if connection fails
+        const conn = await this.pool.getConnection();
+        conn.release();
     }
 
-    const pool = Database.initialize(config);
-    
-    // To check if the database connection can be made, make a connection and release immediately
-    // Throws an error if connection fails
-    const conn = await pool.getConnection();
-    conn.release();
-
-    console.log("Database initialized successfully!");
-    
-    pool.on("connection", () => {
-        console.log("Pool connected!");
-    });
-
-    return pool;
 }
+
+export const dbPoolConfig: PoolOptions = {
+    host: appVars.db.host,
+    port: appVars.db.port,
+    user: appVars.db.user,
+    password: appVars.db.password,
+    database: "dynamic_forms",
+}
+const database = new Database(dbPoolConfig)
+
+export default database;

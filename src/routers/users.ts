@@ -1,10 +1,9 @@
 import { Router } from "express";
-import { Database } from "@/database/db";
+import database from "@/database/db";
 import { Model } from "@/database/models/model";
 const authRouter = Router();
 
-
-const pool = Database.getPoolInstance();
+const pool = database.getPool();
 const model = new Model("user", pool);
 authRouter.get("/signup", async (req, res, next) => {
     try {
