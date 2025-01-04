@@ -6,9 +6,6 @@ export class Database {
 
     constructor(config: PoolOptions) {
         this.pool = mysql.createPool(config);
-        this.pool.on("connection", () => {
-            console.log("Pool connected!");
-        });
     }
 
     public getPool(){
