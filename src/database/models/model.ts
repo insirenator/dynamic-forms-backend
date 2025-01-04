@@ -1,8 +1,8 @@
 import { Pool, RowDataPacket } from "mysql2/promise";
 
-export class Model {
+export class Model<T extends RowDataPacket> {
     public tableName: string;
-    private pool: Pool;
+    protected pool: Pool;
 
     constructor(tableName: string, pool: Pool){
         this.tableName = tableName;
@@ -15,7 +15,7 @@ export class Model {
         }
 
         const query = `SELECT ${selectors.join()} FROM ${this.tableName}`;
-        const [results] = await this.pool.query<RowDataPacket[]>(query);
+        const [results] = await this.pool.query<T[]>(query);
         return results;
     }
 
@@ -25,7 +25,7 @@ export class Model {
         }
 
         const query = `SELECT ${selectors.join()} FROM ${this.tableName} LIMIT 1`;
-        const [results] = await this.pool.query<RowDataPacket[]>(query);
+        const [results] = await this.pool.query<T[]>(query);
         return results.length ? results[0] : null;
     }
 }
