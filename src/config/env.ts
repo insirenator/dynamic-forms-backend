@@ -1,7 +1,9 @@
+import logger from "@/utils/logger";
 import { z } from "zod";
 
 const appVars = {
     env: process.env.NODE_ENV || "development",
+    loglevel: process.env.LOG_LEVEL || "info",
     host: process.env.APP_HOST || "127.0.0.1",
     port: parseInt(process.env.APP_PORT || "") || 8080,
     db: {
@@ -14,6 +16,7 @@ const appVars = {
 
 const AppVarsSchema = z.object({
     env: z.enum(["development", "staging", "production"]),
+    loglevel: z.string(),
     host: z.string(),
     port: z.number(),
     db: z.object({
@@ -28,7 +31,7 @@ export function validateEnvironmentVariables() {
     const result = AppVarsSchema.safeParse(appVars);
 
     if (result.success) {
-        return console.info("Environment variables are set properly.");
+        return logger.info("Environment variables are set properly.");
     }
 
     const missing: string[] = [];

@@ -1,6 +1,6 @@
 import express from "express";
 
-import { errorMiddleware, notFoundMiddleware } from '@/middlewares';
+import { errorMiddleware, morganMiddleware, notFoundMiddleware } from '@/middlewares';
 import appRouter from '@/routers';
 
 class App {
@@ -15,6 +15,7 @@ class App {
     private middlewares() {
         this.express.use(express.json());
         this.express.use(express.urlencoded({ extended: true }));
+        this.express.use(morganMiddleware);
     }
 
     private routes() {

@@ -8,26 +8,27 @@ dotenv.config();
 import database from "@/database/db";
 import appVars, { validateEnvironmentVariables } from '@/config/env';
 import app from "@/app";
+import logger from '@/utils/logger';
 
 configureAndStartServer()
     .catch((err) => {
-        console.error("Error while starting the server!");
-        console.error(err);
+        logger.error("Error while starting the server!");
+        logger.error(err);
     });
 
 async function configureAndStartServer() {
     const onListening = function() {
-        console.log(`Server started at ${appVars.host}:${appVars.port}`)
+        logger.info(`Server started at ${appVars.host}:${appVars.port}`)
     }
 
     const onShutDown = async function() {
         try {
             await database.getPool().end();
-            console.log("Shutting down gracefully...");
+            logger.info("Shutting down gracefully...");
             process.exit(0);
         } catch (error) {
-            console.log("Error while shutting down gracefully");
-            console.error(error);
+            logger.info("Error while shutting down gracefully");
+            logger.error(error);
             process.exit(1);
         }
     }
@@ -36,7 +37,7 @@ async function configureAndStartServer() {
 
     // test database connection
     await database.testConnection();
-    console.log("Database connection successful")
+    logger.info("Database connection successful")
 
     app.listen(appVars.port, appVars.host, onListening);
 
