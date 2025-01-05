@@ -11,7 +11,6 @@ export default class UsersController {
     }
 
     public async getUsers(req: Request, res: Response, next: NextFunction) {
-        const results = await this.model.select(["id AS user_id", "username AS name", "created_at", "verified"]);
-        res.json(results);
+        res.json(req.body);
     }
 }
