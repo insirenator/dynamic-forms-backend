@@ -1,6 +1,7 @@
 import { Pool, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { Model } from "./model";
 import database from "@/database/db";
+import { tokenGenerator } from "@/utils/helpers";
 
 export interface IUser {
     id: number,
@@ -55,7 +56,7 @@ export class UsersModel extends Model<IUser> {
 
             const signupTokenData: ISignUpTokenData = {
                 user_id: inserted.insertId,
-                token: "eju87sh76nh4r",
+                token: tokenGenerator.generate(),
                 expiry: new Date(Date.now() + (24 * 60 * 60 * 1000)),
             }
 
