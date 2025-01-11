@@ -32,6 +32,7 @@ export class Model<M> {
             sql: query,
             values: [this.tableName],
         });
+
         return results.length ? results[0] : null;
     }
 

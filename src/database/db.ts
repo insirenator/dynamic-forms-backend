@@ -28,14 +28,14 @@ export const dbPoolConfig: PoolOptions = {
     password: appVars.db.password,
     database: "dynamic_forms",
 
-    // Tyoecast every TINYINT(1) field into a boolean
-    typeCast: function(field, next) {
-        if(field.type === "TINY" && field.length === 1){
-            return (field.string() === '1');
-        }
-
-        return next();
-    },
+    //// Tyoecast every TINYINT(1) field into a boolean
+    //typeCast: function(field, next) {
+    //    if(field.type === "TINY" && field.length === 1){
+    //        return (field.string() === '1');
+    //    }
+    //
+    //    return next();
+    //},
 }
 const database = new Database(dbPoolConfig)
 
