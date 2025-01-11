@@ -11,6 +11,10 @@ const appVars = {
         port: parseInt(process.env.DATABASE_PORT || ""),
         user: process.env.DATABASE_USER,
         password: process.env.DATABASE_PASSWORD,
+    },
+    gmail: {
+        appEmail: process.env.GMAIL_APP_EMAIL,
+        appPassword: process.env.GMAIL_APP_PASSWORD,
     }
 }
 
@@ -24,6 +28,10 @@ const AppVarsSchema = z.object({
         port: z.number(),
         user: z.string(),
         password: z.string(),
+    }),
+    gmail: z.object({
+        appEmail: z.string(),
+        appPassword: z.string(),
     })
 });
 
