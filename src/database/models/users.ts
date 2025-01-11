@@ -15,7 +15,7 @@ export interface IUser {
 export interface ISignUpTokenData {
     user_id: number,
     token: string,
-    expiry: Date, // Basically a timestamp
+    expiry: Date,
     created_at?: Date,
 }
 
