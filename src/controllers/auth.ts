@@ -7,10 +7,10 @@ export class AuthController {
 
     constructor(authService: AuthService) {
         this.authService = authService;
-        this.getUsers = tryCatchWrapper(this.getUsers.bind(this));
+        this.signupHandler = tryCatchWrapper(this.signupHandler.bind(this));
     }
 
-    public async getUsers(req: Request, res: Response, next: NextFunction) {
+    public async signupHandler(req: Request, res: Response, next: NextFunction) {
         const userData = {
             username: req.body.username,
             email: req.body.email,

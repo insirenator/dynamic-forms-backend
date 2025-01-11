@@ -15,7 +15,7 @@ const authRouter = Router();
 authRouter.post(
     "/signup",
     bodyValidatorMiddleware(UserSchema),
-    authController.getUsers,
+    authController.signupHandler,
 );
 
 authRouter.get(
